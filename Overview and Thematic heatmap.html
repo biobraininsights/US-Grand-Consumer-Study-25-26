@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Ensure responsive scaling on all devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Economic Sentiment Analysis Infographic</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Chart.js and DataLabels Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <style>
+        /* Custom Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        
+        /* === CRITICAL CSS ISOLATION FIX (Stage 1 - Targeted) === */
+        /* We are targeting only styles that bleed from the parent page, NOT layout properties. */
+        #sentiment-infographic-wrapper {
+            /* Removed 'all: unset;' as it killed necessary layout properties */
+            display: block !important; /* Ensure it behaves as a container */
+            box-sizing: border-box !important; /* Crucial: Ensure padding/border don't affect width */
+            font-family: 'DM Sans', sans-serif !important; /* Force DM Sans as default */
+            background-color: #F7F7F7 !important; 
+            color: #001C64 !important; /* Deep Navy for primary text */
+            width: 100% !important;
+            /* Do NOT reset margin/padding here. We rely on Tailwind utility classes for that. */
+        }
+        
+        /* Ensure all child elements inherit the correct box-sizing */
+        #sentiment-infographic-wrapper * {
+            box-sizing: border-box !important;
+            font-family: 'DM Sans', sans-serif;
+            /* Crucial Fix: Removed margin: 0 and padding: 0 to allow Tailwind utilities to work */
+        }
+
+        /* === CRITICAL FONT SIZING FIX (Stage 2 - Keep !) === */
+        /* These classes use !important to defeat persistent font size/line height overrides */
+        .title-main {
+            font-size: 2.25rem !important; /* text-4xl */
+            line-height: 2.5rem !important; /* leading-tight */
+            font-weight: 800 !important; /* font-extrabold */
+        }
+        @media (min-width: 768px) {
+            .title-main {
+                font-size: 3rem !important; /* md:text-5xl */
+                line-height: 1 !important; /* leading-none */
+            }
+        }
+
+        .title-section {
+            font-size: 1.5rem !important; /* text-2xl */
+            line-height: 2rem !important; /* leading-relaxed */
+            font-weight: 700 !important; /* font-bold */
+        }
+
+        .title-subsection {
+            font-size: 1.25rem !important; /* text-xl */
+            line-height: 1.75rem !important; /* leading-snug */
+            font-weight: 700 !important; /* font-bold */
+        }
+
+        /* Re-establish other necessary classes/styles */
+        .font-poppins { font-family: 'Poppins', sans-serif !important; }
+
+        /* Custom Colors */
+        .bg-vibrant-blue { background-color: #0036EE !important; } 
+        .text-vibrant-blue { color: #0075FF !important; } 
+        .text-deep-navy { color: #001C64 !important; }
+        .bg-deep-navy { background-color: #001C64 !important; }
+        .text-aqua { color: #36EBCA !important; }
+        .bg-aqua { background-color: #36EBCA !important; }
+        .text-darker-blue { color: #0036EE !important; }
+        .text-strong-red { color: #EF4444 !important; } 
+    </style>
+</head>
+<body>
+    <!-- Unique Wrapper for maximum style isolation -->
+    <div id="sentiment-infographic-wrapper" class="p-4 md:p-10 rounded-xl">
+
+        <!-- Header and Title Section -->
+        <div class="max-w-7xl mx-auto rounded-xl p-6 md:p-10 shadow-2xl bg-white mb-10">
+            <!-- Main Title (Now using the forced .title-main class) -->
+            <p class="font-poppins title-main text-deep-navy mb-2">
+                The State of Consumer Economic Sentiment
+            </p>
+            <p class="text-xl text-darker-blue font-semibold mb-6">
+                Analyzing Digital Conversations and Consumer Survey Data
+            </p>
+
+            <!-- Key Metrics (Responsive Grid) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                <!-- CARD 1 -->
+                <div class="p-6 bg-vibrant-blue text-white rounded-xl shadow-lg transform hover:scale-[1.02] transition duration-300">
+                    <p class="text-6xl font-poppins font-bold text-white">502K+</p>
+                    <p class="text-xl mt-2 font-medium text-white">Digital Conversations Analysed</p>
+                </div>
+                <!-- CARD 2 -->
+                <div class="p-6 bg-aqua text-deep-navy rounded-xl shadow-lg transform hover:scale-[1.02] transition duration-300">
+                    <p class="text-6xl font-poppins font-bold text-deep-navy">10000+</p>
+                    <p class="text-xl mt-2 font-medium text-deep-navy">US Consumers Surveyed</p>
+                </div>
+            </div>
+
+            <!-- Summary & Overall Tone -->
+            <!-- Section Title (Now using the forced .title-section class) -->
+            <p class="font-poppins title-section text-deep-navy mb-4 border-b-2 border-gray-200 pb-2">Overall Tone & Sentiment</p>
+            <p class="text-lg mb-8">
+                A quick read of the 502K+ digital conversations shows where discussion concentrates. Overall tone in these conversations suggests that the mood is <span class="text-darker-blue font-bold">net-negative</span> with a sizeable neutral/watchful layer.
+            </p>
+
+            <!-- Sentiment Breakdown Chart and Metrics (Responsive Flex/Grid) -->
+            <div class="flex flex-col lg:flex-row gap-8 items-center justify-center">
+                <!-- Sentiment Donut Chart (Wider on small screens) -->
+                <div class="w-full lg:w-1/3 p-4 bg-gray-50 rounded-lg shadow-inner">
+                    <canvas id="sentimentDonutChart"></canvas>
+                </div>
+
+                <!-- Sentiment Metrics (Wider on large screens) -->
+                <div class="w-full lg:w-2/3 space-y-4">
+                    <div class="p-4 rounded-lg border-2 border-vibrant-blue bg-white shadow-md">
+                        <p class="text-sm uppercase font-semibold text-vibrant-blue">Net Sentiment Index (NSI)</p>
+                        <p class="font-poppins text-4xl font-extrabold text-strong-red">-48.2</p>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="p-4 rounded-lg bg-green-100 border-l-4 border-aqua">
+                            <p class="text-xs uppercase font-semibold text-gray-600">Positive</p>
+                            <p class="font-poppins text-2xl font-bold text-aqua">16.0%</p>
+                        </div>
+                        <div class="p-4 rounded-lg bg-red-100 border-l-4 border-strong-red">
+                            <p class="text-xs uppercase font-semibold text-gray-600">Negative</p>
+                            <p class="font-poppins text-2xl font-bold text-strong-red">64.3%</p>
+                        </div>
+                        <div class="p-4 rounded-lg bg-yellow-100 border-l-4 border-gray-500">
+                            <p class="text-xs uppercase font-semibold text-gray-600">Neutral</p>
+                            <p class="font-poppins text-2xl font-bold text-gray-700">19.7%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bubble Chart Section & Data Table -->
+        <div class="max-w-7xl mx-auto rounded-xl p-6 md:p-10 shadow-2xl bg-white">
+            <!-- Section Title (Now using the forced .title-section class) -->
+            <p class="font-poppins title-section text-deep-navy mb-4 border-b-2 border-gray-200 pb-2">
+                Conversation Themes: Sentiment vs. Share
+            </p>
+            <p class="text-sm text-gray-500 mb-6">
+                Vertical position indicates **Net Sentiment Index (NSI)**. Bubble size indicates **Share of Conversations**. Color indicates sentiment on a gradient from <span style="color:#C83737; font-weight:bold;">Red (Highly Negative)</span> to <span style="color:#4CAF50; font-weight:bold;">Green (Highly Positive)</span>.
+            </p>
+            
+            <!-- RESPONSIVENESS FIX: Fluid height container for bubble chart -->
+            <div class="w-full min-h-[400px] h-[70vh] max-h-[800px] mb-8">
+                <canvas id="bubbleChart"></canvas>
+            </div>
+
+            <!-- New Data Table Section -->
+            <!-- Subsection Title (Now using the forced .title-subsection class) -->
+            <p class="font-poppins title-subsection text-deep-navy mb-4 pt-6 border-t-2 border-gray-200">
+                Conversation Themes Data Table
+            </p>
+            <div class="overflow-x-auto shadow-md rounded-lg">
+                <table id="themeTable" class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-deep-navy text-white">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-poppins font-medium uppercase tracking-wider rounded-tl-lg w-1/2">Theme</th>
+                            <th class="px-4 py-3 text-left text-xs font-poppins font-medium uppercase tracking-wider">NSI</th>
+                            <th class="px-4 py-3 text-left text-xs font-poppins font-medium uppercase tracking-wider rounded-tr-lg">Share of Conversations (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-100">
+                        <!-- Rows will be injected here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- END UNIQUE WRAPPER -->
+
+    <script type="module">
+        Chart.register(ChartDataLabels);
+
+        // Define the data for the Bubble Chart
+        const themeData = [
+            { theme: 'Economic Anxiety & Uncertainty', nsi: -62.8, share: 31.60 },
+            { theme: 'Financial Stress & Debt Concerns', nsi: -57.3, share: 16.50 },
+            { theme: 'Political Orientation & Economic Lens', nsi: -48.3, share: 14.00 },
+            { theme: 'Economic Predictions', nsi: -9.2, share: 12.20 },
+            { theme: 'Distrust in Government Actions', nsi: -86.9, share: 10.80 },
+            { theme: 'Employment & Job Security', nsi: -62.2, share: 8.40 },
+            { theme: 'Inflation Perception', nsi: -56.5, share: 7.80 },
+            { theme: 'Changing Shopping Behaviors', nsi: 0, share: 7.00 },
+            { theme: 'Food Security & Affordability', nsi: -50.7, share: 6.50 },
+            { theme: 'Financial Anxiety & Coping Mechanisms', nsi: 55.8, share: 5.80 },
+            { theme: 'Housing Market Pressures', nsi: -40.6, share: 5.20 },
+            { theme: 'Retirement & Long-term Planning', nsi: 74.1, share: 4.80 },
+            { theme: 'Lifestyle Adjustments', nsi: -35.2, share: 4.10 },
+            { theme: 'Retail Preferences', nsi: 18.1, share: 3.60 },
+            { theme: 'Digital Finance & Fintech Behaviors', nsi: -25.8, share: 2.90 },
+            { theme: 'Student Debt Burden', nsi: -28.2, share: 2.60 },
+            { theme: 'Scenario Planning', nsi: -13.2, share: 2.20 },
+            { theme: 'Trust in Media', nsi: -48, share: 2.10 },
+            { theme: 'Role of Social Media in Shaping Perceptions', nsi: -38.6, share: 1.90 },
+            { theme: 'Healthcare Costs & Affordability', nsi: -43.8, share: 1.90 },
+            { theme: 'Spending Intentions', nsi: -33.7, share: 1.80 },
+            { theme: 'Digital Communities & Peer Influence', nsi: 10.5, share: 1.50 },
+            { theme: 'Information Sources & Decision Triggers', nsi: -2.3, share: 1.50 },
+        ];
+        
+        // Custom Colors
+        const COLOR_AQUA = '#36EBCA'; 
+        const COLOR_DEEP_NAVY = '#001C64'; 
+        const COLOR_NEGATIVE_CHART = '#FF4444'; 
+        const COLOR_NEUTRAL_CHART = '#F4D086'; 
+
+        // Function to determine bubble color based on NSI using an HSL gradient (Red->Yellow->Green)
+        function getSentimentColor(nsi) {
+            let hue, lightness, saturation;
+
+            if (nsi <= 0) {
+                // Negative (Red/Orange -> Yellow/Beige)
+                hue = 0 + (nsi + 100) * (60 / 100); 
+                lightness = 60 + (nsi + 100) * (20 / 100); 
+                saturation = 80 - (nsi + 100) * (10 / 100); 
+            } else {
+                // Positive (Yellow/Beige -> Green)
+                hue = 60 + nsi * (60 / 100); 
+                lightness = 80 - nsi * (25 / 100); 
+                saturation = 70 + nsi * (10 / 100); 
+            }
+            
+            return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        }
+
+        // Bubble Chart Logic
+        const MAX_SHARE = 31.6;
+        const BASE_RADIUS = 5;
+        const SCALE_FACTOR = 1.2;
+        
+        const bubbleData = themeData.map((d, index) => {
+            const radius = BASE_RADIUS + (d.share / MAX_SHARE) * (30 * SCALE_FACTOR);
+            return {
+                x: index, 
+                y: d.nsi, 
+                r: radius,
+                theme: d.theme,
+                share: d.share
+            };
+        });
+
+        const bubbleColors = themeData.map(d => getSentimentColor(d.nsi));
+        
+        const bubbleChartCtx = document.getElementById('bubbleChart').getContext('2d');
+        const bubbleChart = new Chart(bubbleChartCtx, {
+            type: 'bubble',
+            data: {
+                datasets: [{
+                    label: 'Themes',
+                    data: bubbleData,
+                    backgroundColor: bubbleColors,
+                    borderColor: 'transparent',
+                    borderWidth: 0,
+                    hoverBorderColor: COLOR_DEEP_NAVY,
+                    hoverBorderWidth: 2,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Ensures responsiveness works with fluid height
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: COLOR_DEEP_NAVY, 
+                        titleFont: {
+                            family: 'Poppins',
+                            weight: 'bold',
+                            size: 14 
+                        },
+                        bodyFont: {
+                            family: 'Poppins',
+                            size: 14 
+                        },
+                        titleAlign: 'left',
+                        padding: 12,
+                        cornerRadius: 8,
+                        boxPadding: 4,
+                        callbacks: {
+                            title: (context) => context[0].raw.theme,
+                            label: (context) => {
+                                const data = context.raw;
+                                return [`NSI: ${data.y.toFixed(1)}`, `Share: ${data.share.toFixed(1)}%`];
+                            },
+                            labelPointStyle: () => ({ pointStyle: 'circle', rotation: 0, radius: 0 })
+                        }
+                    },
+                    datalabels: {
+                        formatter: (value) => {
+                            const topThemes = themeData.slice().sort((a, b) => b.share - a.share).slice(0, 5);
+                            const currentTheme = themeData[value.x]; 
+                            if (topThemes.some(t => t.theme === currentTheme.theme)) {
+                                return currentTheme.theme.split(' & ')[0].split(' ')[0];
+                            }
+                            return null;
+                        },
+                        align: 'center',
+                        color: (context) => {
+                             const nsi = themeData[context.dataIndex].nsi;
+                             return nsi > -20 && nsi < 20 ? COLOR_DEEP_NAVY : 'white';
+                        },
+                        font: {
+                            weight: 'bold',
+                            size: 10,
+                            family: 'Poppins'
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Net Sentiment Index (NSI)',
+                            font: { size: 14, family: 'DM Sans', weight: 'bold' },
+                            color: COLOR_DEEP_NAVY
+                        },
+                        min: -100,
+                        max: 100,
+                        grid: {
+                            borderColor: COLOR_DEEP_NAVY,
+                            color: (context) => context.tick.value === 0 ? COLOR_DEEP_NAVY : 'rgba(0, 0, 0, 0.1)',
+                            lineWidth: (context) => context.tick.value === 0 ? 2 : 1,
+                        },
+                        ticks: {
+                            font: { family: 'DM Sans' }
+                        }
+                    },
+                    x: {
+                        display: false, 
+                        min: -1,
+                        max: themeData.length,
+                    }
+                }
+            }
+        });
+
+        // Sentiment Donut Chart Logic
+        const sentimentData = {
+            labels: ['Positive', 'Negative', 'Neutral'],
+            datasets: [{
+                data: [16.0, 64.3, 19.7],
+                backgroundColor: [
+                    COLOR_AQUA, 
+                    COLOR_NEGATIVE_CHART, 
+                    COLOR_NEUTRAL_CHART 
+                ],
+                borderColor: 'white',
+                borderWidth: 2
+            }]
+        };
+
+        const donutChartCtx = document.getElementById('sentimentDonutChart').getContext('2d');
+        new Chart(donutChartCtx, {
+            type: 'doughnut',
+            data: sentimentData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: true, // Donut charts usually maintain aspect ratio
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { family: 'DM Sans', size: 14 },
+                            color: COLOR_DEEP_NAVY,
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                         callbacks: {
+                            label: (context) => `${context.label}: ${context.parsed.toFixed(1)}%`
+                        }
+                    },
+                    datalabels: {
+                        color: '#fff',
+                        formatter: (value) => `${value.toFixed(1)}%`,
+                        font: {
+                            family: 'Poppins',
+                            weight: 'bold',
+                            size: 14
+                        }
+                    }
+                }
+            }
+        });
+
+        // Function to populate the data table
+        function populateThemeTable(data) {
+            const tableBody = document.querySelector('#themeTable tbody');
+            if (!tableBody) return;
+
+            tableBody.innerHTML = ''; 
+
+            data.forEach(d => {
+                const row = tableBody.insertRow();
+                const nsiColor = d.nsi > 0 ? 'text-aqua' : (d.nsi < 0 ? 'text-strong-red font-semibold' : 'text-gray-500');
+
+                // Theme Cell
+                let cell = row.insertCell();
+                cell.className = 'px-4 py-3 text-sm font-medium text-deep-navy';
+                cell.textContent = d.theme;
+
+                // NSI Cell
+                cell = row.insertCell();
+                cell.className = `px-4 py-3 text-sm ${nsiColor}`;
+                cell.textContent = d.nsi.toFixed(1);
+
+                // Share Cell
+                cell = row.insertCell();
+                cell.className = 'px-4 py-3 text-sm text-gray-700';
+                cell.textContent = d.share.toFixed(2) + '%';
+            });
+        }
+
+        populateThemeTable(themeData);
+    </script>
+</body>
+</html>
